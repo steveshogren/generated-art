@@ -3,19 +3,23 @@
   (:require [compojure.handler :as handler]
             [art-work.art :as art]
             [clojure.pprint :as pp]
+            [clojure.math.numeric-tower :as math]
+            [hiccup.core :as h]
             [compojure.route :as route]))
 
-(defn print-table [aseq column-width]
-      (binding [*out* (pp/get-pretty-writer *out*)]
-        (doseq [row aseq]
-          (doseq [col row]
-            (pp/cl-format true "~4D~7,vT" col column-width))
-          (prn))))
+#_(defn make-table [table]
+  (map (fn [x]
+         [:tr (map (fn [y]
+                     [:td (get-num)]) x)]) table))
 (defn pr [table]
-  (reduce (fn [x y] (str (reduce str x) (reduce str y))) table))
+  (h/html [:head
+           [:title "A Large Set"]]
+          [:body
+           [:div
+            [:table (make-table table)]]]))
 
 (defroutes app-routes
-  (GET "/" [] (str "Test: " (pr (art/generate 10))) )
+  (GET "/" [] (str "Test: " (pr (art/generate 50))) )
   (route/not-found "Not Found"))
 
 (def app
