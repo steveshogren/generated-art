@@ -6,17 +6,23 @@
             [hiccup.core :as h]
             [compojure.route :as route]))
 
-(defn make-table [table]
-  (map (fn [x y val]
-         [:tr [:td (str "x: " x " y: " y " val: " val)]])
-       table))
+(defn make-row [[x y val]]
+  (cond
+   (nil? val) [:td ""]
+   :else [:td  val]))
+
+(defn m-table [table]
+  (map
+   (fn [rows]
+     [:tr (map (fn [row] (make-row row)) rows)])
+   (partition-by first table)))
 
 (defn pr [table]
   (h/html [:head
            [:title "A Large Set"]]
           [:body
            [:div
-            [:table (make-table table)]]]))
+            [:table (m-table table)]]]))
 
 (defroutes app-routes
   (GET "/" [] (str "Test: " (pr (art/generate 50))) )

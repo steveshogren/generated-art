@@ -11,11 +11,10 @@
 (defn not-nill? [x] (not (nil? x)))
 
 (defn generate [size]
-  #_(filter not-nill?)
   (for [x (range size) y (range size)]
     (let [val (get-num)]
       (cond
-       (nil? val) nil
+       (nil? val) [x y nil]
        :else [x y val]))))
 
 (defn color-cell? []
