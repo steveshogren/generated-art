@@ -4,7 +4,7 @@
 (declare get-num generate color-cell?
          neigbors populate-random grow
          get-neigbors not-nil? extract-cell update-cell
-         update-around-cell)
+         update-around-cell looping)
 
 (defn get-num []
   (cond
@@ -22,20 +22,25 @@
           false
           (get-neigbors x y board)))
 
-(defn grow [board]
+(defn looping [fun cells-to-loop board]
   (loop [new-board board
-         set-cells (only-set board)]
+         cells cells-to-loop]
     (cond
-     (empty? set-cells) new-board
-     :else (recur (update-around-cell (first set-cells) 1 new-board)
-                  (rest set-cells)))))
+     (empty? cells) new-board
+     :else (recur (fun (first cells) new-board)
+                  (rest cells)))))
+
+(defn grow [board]
+  (looping (fn [cell board]
+             (update-around-cell cell 1 board))
+           (only-set board)
+           board))
 
 (defn update-around-cell [[x y _] newval board]
-  (loop [new-board board
-         arounds (neigbors [x y])]
-    (cond
-     (empty? arounds) new-board
-     :else (recur (update-cell (first arounds) 9 new-board) (rest arounds)))))
+  (looping (fn [cell board]
+             (update-cell cell 9 board))
+           (neigbors [x y])
+           board))
 
 (defn update-cell [[x y] newval board]
   (map (fn [[x1 y1 val]]
