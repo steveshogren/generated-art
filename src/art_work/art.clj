@@ -1,7 +1,10 @@
 (ns art-work.art
   (:use [clojure.math.numeric-tower :only (round)]))
 
-(declare get-num generate color-cell? neigbors populate-random grow not-nil? extract-cell)
+(declare get-num generate color-cell?
+         neigbors populate-random grow
+         get-neigbors not-nil? extract-cell update-cell
+         update-around-cell)
 
 (defn get-num []
   (cond
@@ -20,10 +23,25 @@
           (get-neigbors x y board)))
 
 (defn grow [board]
-  (map (fn [[x y val]] 
+  (loop [new-board board
+         set-cells (only-set board)]
+    (cond
+     (empty? set-cells) new-board
+     :else (recur (update-around-cell (first set-cells) 1 new-board)
+                  (rest set-cells)))))
+
+(defn update-around-cell [[x y _] newval board]
+  (loop [new-board board
+         arounds (neigbors [x y])]
+    (cond
+     (empty? arounds) new-board
+     :else (recur (update-cell (first arounds) 9 new-board) (rest arounds)))))
+
+(defn update-cell [[x y] newval board]
+  (map (fn [[x1 y1 val]]
          (cond
-          (any-neighbors-set? x y board) [x y 1]
-          :else [x y val]))
+          (and (= x1 x) (= y1 y)) [x1 y1 newval]
+          :else [x1 y1 val]))
        board))
 
 (defn generate [size]
