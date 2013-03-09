@@ -1,0 +1,16 @@
+td {
+    color: white;
+    width: 20px;
+    height: 20px;
+}
+/* .num1 {background-color: #cccccc;} */
+.num0 {background-image: url("2.png");} 
+.num1 {background-image: url("3.png");} 
+.num2 {background-image: url("4.png");} 
+.num3 {background-image: url("5.png");} 
+.num4 {background-image: url("6.png");} 
+.num5 {background-image: url("2.png");} 
+.num6 {background-image: url("2.png");} 
+.empty {
+    background-color: white;
+}
