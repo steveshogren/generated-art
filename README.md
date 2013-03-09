@@ -1,6 +1,6 @@
 # art-work
 
-FIXME
+Generates random art in the browser
 
 ## Prerequisites
 
@@ -14,6 +14,3 @@ To start a web server for the application, run:
 
     lein ring server
 
-## License
-
-Copyright © 2013 FIXME
