@@ -24,7 +24,7 @@
           (p/include-css "style.css")
           [:body
            [:div
-            [:table (m-table table)]]]))
+            [:table {:cellspacing 0} (m-table table)]]]))
 
 (defroutes app-routes
   (GET "/" [] (str "Test: " (pr (art/generate 50))))

@@ -3,14 +3,29 @@ td {
     width: 20px;
     height: 20px;
 }
-/* .num1 {background-color: #cccccc;} */
+.num0 {background-color: #000000;} 
+.num1 {background-color: #000018;} 
+.num2 {background-color: #000028;} 
+.num3 {background-color: #000038;} 
+.num4 {background-color: #000048;} 
+.num5 {background-color: #000058;} 
+.num6 {background-color: #000068;} 
+/*
+.num0 {background-color: #000000;} 
+.num1 {background-color: #001800;} 
+.num2 {background-color: #002800;} 
+.num3 {background-color: #003800;} 
+.num4 {background-color: #004800;} 
+.num5 {background-color: #005800;} 
+.num6 {background-color: #006800;} 
 .num0 {background-image: url("2.png");} 
 .num1 {background-image: url("3.png");} 
 .num2 {background-image: url("4.png");} 
 .num3 {background-image: url("5.png");} 
 .num4 {background-image: url("6.png");} 
 .num5 {background-image: url("2.png");} 
-.num6 {background-image: url("2.png");} 
+.num6 {background-image: url("2.png");}
+*/
 .empty {
     background-color: white;
 }
