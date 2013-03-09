@@ -3,24 +3,18 @@
 
 (declare get-num generate color-cell?
          neigbors populate-random grow
-         get-neigbors not-nil? extract-cell update-cell
+         not-nil?  update-cell
          update-around-cell looping)
+(defn rand-num []
+  (round (rand 6)))
 
 (defn get-num []
-  (cond
-   (= :true (color-cell?)) (round (rand 6))
-   :else nil))
+  (if (color-cell?) (rand-num) nil))
 
 (defn not-nil? [x] (not (nil? x)))
 
 (defn only-set [board]
   (filter (fn [[x y val]] (not-nil? val)) board))
-
-(defn any-neighbors-set? [x y board]
-  (reduce (fn [any-set? [x1 y1 val1]]
-            (or (not-nil? val1) any-set?))
-          false
-          (get-neigbors x y board)))
 
 (defn looping [fun cells-to-loop board]
   (loop [new-board board
@@ -38,8 +32,8 @@
 
 (defn update-around-cell [[x y _] newval board]
   (looping (fn [cell board]
-             (update-cell cell 9 board))
-           (neigbors [x y])
+             (update-cell cell (rand-num) board))
+           (if (> (rand 1) 0.5) (neigbors [x y] :true) (neigbors [x y]))
            board))
 
 (defn update-cell [[x y] newval board]
@@ -60,20 +54,13 @@
        :else [x y val]))))
 
 (defn color-cell? []
-  (cond
-   (> (rand 1) 0.99) :true
-   :else :false))
+  (> (rand 1) 0.99))
 
-(defn neigbors [[x y]]
-  (for [dx [-1 0 1] dy (if (zero? dx) [-1 1] [-1 0 1])]
-    [(+ dx x) (+ dy y)]))
+(defn neigbors
+  ([[x y] larger] (for [dx [-2 -1 0 1 2] dy
+                          (if (zero? dx) [-2 -1 1 2] [-2 -1 0 1 2])]
+                      [(+ dx x) (+ dy y)]))
+  ([[x y]] (for [dx [-1 0 1] dy (if (zero? dx) [-1 1] [-1 0 1])]
+              [(+ dx x) (+ dy y)])))
 
-(defn get-neigbors [x y board]
-  (filter not-nil? (map (fn [cell] (extract-cell cell board)) (neigbors [x y]))))
-
-(defn extract-cell [[x y] board]
-  (let [match (filter (fn [[x1 y1 _]] (and (= x1 x) (= y1 y))) board)]
-    (cond
-     (= 1 (count match)) (first match)
-     :else nil)))
 

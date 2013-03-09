@@ -9,7 +9,7 @@
 (defn make-row [[x y val]]
   (cond
    (nil? val) [:td ""]
-   :else [:td  val]))
+   :else [:td {:class val}  val]))
 
 (defn m-table [table]
   (map
